@@ -37,12 +37,10 @@ ENV Qt5_DIR="/home/paraview/qt/5.10.1/gcc_64/lib/cmake/Qt5"
 FROM base as builder
 
 RUN scl enable devtoolset-4 -- sh /home/paraview/build_paraview.sh
-ENV CMAKE_PREFIX_PATH=/home/paraview/build/install
-
 
 FROM base as default
 COPY --from=builder /home/paraview/build/install /home/paraview/build/install
-
+ENV CMAKE_PREFIX_PATH=/home/paraview/build/install
 
 FROM default as package
 COPY --from=builder /home/paraview/package /home/paraview/package
