@@ -15,7 +15,7 @@ Prebuilt docker images can be found on [Docker Hub](https://hub.docker.com/r/lho
 
 The image has preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-4 python27`.
 
-### From a shell in a container
+### Using a shell in a container
 
 Create a directory `shared` and mount it into the docker container:
 ```bash
@@ -48,7 +48,7 @@ docker run -itd --name build \
 ```
 Run CMake and build
 ```bash
-docker exec build /usr/bin/scl enable devtoolset-4 python27 -- cmake -B /mnt/share/build -C /mnt/share/example
+docker exec build /usr/bin/scl enable devtoolset-4 python27 -- cmake -B /mnt/share/build -H /mnt/share/example
 docker exec build /bin/bash -c 'cd /mnt/share/build && cmake --build .'
 ```
 
