@@ -48,8 +48,8 @@ docker run -itd --name build \
 ```
 Run CMake and build
 ```bash
-docker exec build /usr/bin/scl enable devtoolset-4 python27 -- cmake -B /mnt/share/build -H /mnt/share/example
-docker exec build cmake --build /mnt/share/build
+docker exec build /usr/bin/scl enable devtoolset-4 python27 -- cmake -B/mnt/shared/build -H/mnt/shared/example
+docker exec build cmake --build /mnt/shared/build
 ```
 
 ## Building the docker image
