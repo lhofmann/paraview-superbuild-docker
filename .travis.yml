@@ -6,12 +6,12 @@ services:
 
 before_install:
   - docker pull lhofmann/paraview-superbuild:5.6.0
-  - docker run -itd --name build --volume `pwd`:/mnt lhofmann/paraview-superbuild:5.6.0
+  - docker run -itd --name build --volume="`pwd`:/mnt:rw" lhofmann/paraview-superbuild:5.6.0
   - wget https://www.paraview.org/files/v5.6/ParaView-5.6.0-MPI-Linux-64bit.tar.gz
   - tar xzf ParaView-5.6.0-MPI-Linux-64bit.tar.gz
 
 script:
-  - docker exec build cmake -H/mnt/shared/example -B/mnt/shared/build
+  - docker exec build /usr/bin/scl enable devtoolset-4 python27 -- cmake -H/mnt/shared/example -B/mnt/shared/build
   - docker exec build cmake --build /mnt/shared/build -- -j2
   - cp shared/build/libExamplePlugin.so ParaView-5.6.0-MPI-Linux-64bit/lib/plugins/
   - ./ParaView-5.6.0-MPI-Linux-64bit/bin/pvpython .travis.test.py
