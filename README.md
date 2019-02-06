@@ -1,5 +1,8 @@
 # ParaView Superbuild Docker Image
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Build Status](https://travis-ci.org/lhofmann/paraview-superbuild-docker.svg?branch=master)](https://travis-ci.org/lhofmann/paraview-superbuild-docker)
+
 Building [ParaView](https://www.paraview.org/) plugins, that are compatible with the ParaView binary distribution, currently requires to reproduce the [ParaView superbuild](https://gitlab.kitware.com/paraview/paraview-superbuild). 
 This docker image contains ParaView superbuild binaries as well as their development headers, which allows external plugins to be built. Any plugin built in this environment can be distributed and used within the ParaView binary distribution.
 
@@ -51,6 +54,8 @@ Run CMake and build
 docker exec build /usr/bin/scl enable devtoolset-4 python27 -- cmake -B/mnt/shared/build -H/mnt/shared/example
 docker exec build cmake --build /mnt/shared/build
 ```
+
+This is also demonstrated in the [Travis build](https://travis-ci.org/lhofmann/paraview-superbuild-docker), which builds a plugin using the docker image and executes it using the ParaView binary distribution. See also [.travis.yml](.travis.yml).
 
 ## Building the docker image
 
