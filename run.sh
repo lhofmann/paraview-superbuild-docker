@@ -8,5 +8,5 @@ docker run -it \
   --volume="${BASE_DIR}/shared:/mnt/shared:rw" \
   --net=host \
   lhofmann/paraview-superbuild:5.6.0 \
-  /usr/bin/scl enable devtoolset-4 python27 -- /bin/bash --login
+  /usr/bin/scl enable devtoolset-4 -- /bin/bash --login
 

@@ -6,13 +6,11 @@ RUN yum install -y \
     libX11-devel libXdamage-devel libXext-devel libXt-devel libXi-devel \
     libxcb-devel xorg-x11-xtrans-devel libXcursor-devel libXft-devel \
     libXinerama-devel libXrandr-devel libXrender-devel \
-    mesa-libGL-devel mesa-libGLU-devel mesa-dri-drivers \
-    dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
-    xkeyboard-config
+    mesa-libGL-devel mesa-libGLU-devel mesa-dri-drivers
 
 RUN yum install -y centos-release-scl \
     && yum install -y devtoolset-4-gcc devtoolset-4-gcc-c++ \
-    devtoolset-4-gcc-gfortran python27
+    devtoolset-4-gcc-gfortran
 
 RUN yum clean all
 

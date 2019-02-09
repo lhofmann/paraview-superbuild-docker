@@ -16,7 +16,7 @@ This docker image is partially based on the Dockerfiles found on the [ParaView m
 
 Prebuilt docker images can be found on [Docker Hub](https://hub.docker.com/r/lhofmann/paraview-superbuild). If you want to build your own docker images, see the instructions below (building takes about three hours on a desktop machine).
 
-The image has preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-4 python27`.
+The image has preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-4`.
 
 ### Using a shell in a container
 
@@ -26,7 +26,7 @@ mkdir shared
 docker run -it \
   --volume="$(pwd)/shared:/mnt/shared:rw" \
   lhofmann/paraview-superbuild:5.6.0 \
-  /usr/bin/scl enable devtoolset-4 python27 -- /bin/bash --login
+  /usr/bin/scl enable devtoolset-4 -- /bin/bash --login
 ```
 The same can be achieved by cloning this repository and executing `run.sh`. This will create the subdirectory `paraview-superbuild-docker/shared` and mounts it as above.
 ```bash
@@ -51,7 +51,7 @@ docker run -itd --name build \
 ```
 Run CMake and build
 ```bash
-docker exec build /usr/bin/scl enable devtoolset-4 python27 -- cmake -B/mnt/shared/build -H/mnt/shared/example
+docker exec build /usr/bin/scl enable devtoolset-4 -- cmake -B/mnt/shared/build -H/mnt/shared/example
 docker exec build cmake --build /mnt/shared/build
 ```
 
