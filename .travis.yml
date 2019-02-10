@@ -27,4 +27,8 @@ script:
   - tar xzf ${release_name}.tar.gz
   - mkdir -p ${release_name}/lib/plugins/
   - cp shared/build/libExamplePlugin.so ${release_name}/lib/plugins/
+  - if [ $release_name == "ParaView-5.6.0-egl-MPI-Linux-64bit" ]; then
+    sudo apt-get update;
+    sudo apt-get install -y nvidia-384;
+    fi
   - ./${release_name}/bin/pvpython .travis.test.py
