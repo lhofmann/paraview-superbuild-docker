@@ -25,5 +25,6 @@ script:
   - docker exec build cmake --build /mnt/shared/build -- -j2
   - wget "${download_url}" -O ${release_name}.tar.gz
   - tar xzf ${release_name}.tar.gz
+  - mkdir -p ${release_name}/lib/plugins/
   - cp shared/build/libExamplePlugin.so ${release_name}/lib/plugins/
   - ./${release_name}/bin/pvpython .travis.test.py
