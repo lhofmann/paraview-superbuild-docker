@@ -24,7 +24,7 @@ ENV MAKE=/usr/bin/make
 COPY scripts/install_cmake.sh /home/paraview/install_cmake.sh
 RUN scl enable devtoolset-4 -- sh /home/paraview/install_cmake.sh
 
-COPY scripts/install_cmake.sh /home/paraview/install_cmake.sh
+COPY scripts/install_ninja.sh /home/paraview/install_ninja.sh
 RUN scl enable devtoolset-4 -- sh /home/paraview/install_ninja.sh
 
 ENV PATH="/home/paraview/cmake/bin:${PATH}"
