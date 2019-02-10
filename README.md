@@ -6,9 +6,14 @@
 Building [ParaView](https://www.paraview.org/) plugins, that are compatible with the ParaView binary distribution, currently requires to reproduce the [ParaView superbuild](https://gitlab.kitware.com/paraview/paraview-superbuild). 
 This docker image contains ParaView superbuild binaries as well as their development headers, which allows external plugins to be built. Any plugin built in this environment can be distributed and used within the ParaView binary distribution.
 
-Currently, only [ParaView-5.6.0-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.0-MPI-Linux-64bit.tar.gz) is supported.
+Currently, supported are the following versions:
 
-This docker image is partially based on the Dockerfiles found on the [ParaView mailing list](https://public.kitware.com/pipermail/paraview/2017-April/039841.html) and in the [ParaView superbuild repository](https://gitlab.kitware.com/paraview/paraview-superbuild/tree/master/Scripts/docker/el6). The CMake configuration is taken from the [ParaView CDash](https://open.cdash.org/index.php?project=ParaView).
+* [ParaView-5.6.0-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.0-MPI-Linux-64bit.tar.gz) (Qt5 GUI)
+* [ParaView-5.6.0-osmesa-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.0-osmesa-MPI-Linux-64bit.tar.gz) (no GUI, software rendering)
+* [ParaView-5.6.0-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.0/ParaView-5.6.0-egl-MPI-Linux-64bit.tar.gz) (no GUI, hardware rendering)
+
+
+This docker images are partially based on the Dockerfiles found on the [ParaView mailing list](https://public.kitware.com/pipermail/paraview/2017-April/039841.html) and in the [ParaView superbuild repository](https://gitlab.kitware.com/paraview/paraview-superbuild/tree/master/Scripts/docker/el6). The CMake configuration is taken from the [ParaView CDash](https://open.cdash.org/index.php?project=ParaView).
 
 ## Usage
 
@@ -16,7 +21,13 @@ This docker image is partially based on the Dockerfiles found on the [ParaView m
 
 Prebuilt docker images can be found on [Docker Hub](https://hub.docker.com/r/lhofmann/paraview-superbuild). If you want to build your own docker images, see the instructions below (building takes about three hours on a desktop machine).
 
-The image has preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-4`.
+Available images are
+
+* `lhofmann/paraview-superbuild:5.6.0`
+* `lhofmann/paraview-superbuild:5.6.0-osmesa`
+* `lhofmann/paraview-superbuild:5.6.0-egl`
+
+The images have preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-4`.
 
 ### Using a shell in a container
 
@@ -57,7 +68,7 @@ docker exec build cmake --build /mnt/shared/build
 
 This is also demonstrated in the [Travis build](https://travis-ci.org/lhofmann/paraview-superbuild-docker), which builds a plugin using the docker image and executes it using the ParaView binary distribution. See also [.travis.yml](.travis.yml).
 
-## Building the docker image
+## Building the docker images
 
 This is a multi-stage Dockerfile with four stages: `base`, `builder`, `default` and `package`.
 
@@ -74,3 +85,8 @@ git clone https://github.com/lhofmann/paraview-superbuild-docker.git
 In order to keep the intermediate stages, run `./paraview-superbuild-docker/build.sh all`.
 
 The script will create docker images with tag `paraview-superbuild:5.6.0` for the `default` stage and `paraview-superbuild:5.6.0-base`, `paraview-superbuild:5.6.0-builder`, `paraview-superbuild:5.6.0-package` for the other stages.
+
+The full usage of the build script, which can also build the `osmesa` and `egl` variants, is
+```bash
+./paraview-superbuild-docker/build.sh [osmesa|egl] [all]
+```
