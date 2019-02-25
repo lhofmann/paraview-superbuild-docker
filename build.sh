@@ -5,6 +5,8 @@
 
 set -e
 
+readonly paraview_version="5.6.0-295-g74fd1a6d5a"
+
 BASE_DIR=$(dirname $(readlink -f ${BASH_SOURCE}))
 
 tag_suffix=""
@@ -18,7 +20,7 @@ elif [ "${1:-}" = "egl" ]; then
     file_suffix=".egl"
 fi
 
-readonly tag="paraview-superbuild:5.6.0${tag_suffix}"
+readonly tag="paraview-superbuild:${paraview_version}${tag_suffix}"
 readonly dockerfile="${BASE_DIR}/Dockerfile${file_suffix}"
 
 if [[ "${1:-}" = "all" || "${2:-}" = "all" ]]; then
