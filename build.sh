@@ -5,7 +5,7 @@
 
 set -e
 
-readonly paraview_version="5.6.0-295-g74fd1a6d5a"
+readonly paraview_version="5.7.0-RC1"
 
 BASE_DIR=$(dirname $(readlink -f ${BASH_SOURCE}))
 
