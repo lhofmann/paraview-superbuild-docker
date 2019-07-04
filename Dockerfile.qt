@@ -1,15 +1,15 @@
 ARG IMAGE_NAME
 FROM ${IMAGE_NAME} as base
 
-USER root
-RUN yum install -y mesa-libEGL-devel libglvnd libglvnd-egl libglvnd-opengl \
-    && yum clean all
-USER paraview
+COPY scripts/download_qt.sh /home/paraview/download_qt.sh
+COPY scripts/extract-qt-installer /home/paraview/extract-qt-installer
+RUN sh /home/paraview/download_qt.sh
+ENV Qt5_DIR="/home/paraview/qt/5.12.1/gcc_64/lib/cmake/Qt5"
 
 FROM base as builder
 
-COPY scripts/build_paraview.egl.sh /home/paraview/build_paraview.egl.sh
-RUN scl enable devtoolset-${DEVTOOLSET_VERSION} -- sh /home/paraview/build_paraview.egl.sh
+COPY scripts/build_paraview.sh /home/paraview/build_paraview.sh
+RUN scl enable devtoolset-${DEVTOOLSET_VERSION} -- sh /home/paraview/build_paraview.sh
 RUN scl enable devtoolset-${DEVTOOLSET_VERSION} -- make -j1
 RUN scl enable devtoolset-${DEVTOOLSET_VERSION} -- make install
 

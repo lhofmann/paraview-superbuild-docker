@@ -1,0 +1,44 @@
+FROM centos:7
+
+RUN yum install -y \
+    curl-devel epel-release \
+    git-core chrpath libtool make which \
+    libX11-devel libXdamage-devel libXext-devel libXt-devel libXi-devel \
+    libxcb-devel xorg-x11-xtrans-devel libXcursor-devel libXft-devel \
+    libXinerama-devel libXrandr-devel libXrender-devel libxkbcommon-x11 \
+    mesa-libGL-devel mesa-libGLU-devel mesa-dri-drivers
+
+ENV DEVTOOLSET_VERSION=6
+
+RUN yum install -y centos-release-scl \
+    && yum install -y devtoolset-${DEVTOOLSET_VERSION}-gcc devtoolset-${DEVTOOLSET_VERSION}-gcc-c++ \
+    devtoolset-${DEVTOOLSET_VERSION}-gcc-gfortran
+
+RUN yum clean all
+
+RUN useradd -c paraview -d /home/paraview -M paraview \
+    && mkdir /home/paraview \
+    && chown paraview:paraview /home/paraview
+USER paraview
+
+ENV MAKE=/usr/bin/make
+
+COPY scripts/install_cmake.sh /home/paraview/install_cmake.sh
+RUN scl enable devtoolset-${DEVTOOLSET_VERSION} -- sh /home/paraview/install_cmake.sh
+
+ENV PATH="/home/paraview/cmake/bin:${PATH}"
+
+ARG superbuild_version="v5.7.0-RC1"
+ENV superbuild_version=${superbuild_version}
+ARG paraview_version="v5.7.0-RC1"
+ENV paraview_version=${paraview_version}
+
+RUN mkdir -p /home/paraview/build \
+    && cd /home/paraview \
+    && git clone --recursive --branch "$superbuild_version" --depth 1 https://gitlab.kitware.com/paraview/paraview-superbuild.git \
+    # workaround for issue https://gitlab.kitware.com/paraview/paraview-superbuild/issues/123
+    && cd paraview-superbuild/superbuild \
+    && git checkout adc5ab1a8cba4e2c29341fb095735f3c23e31e82 \
+    && sed -i '28d' CMakeLists.txt
+
+WORKDIR /home/paraview/build

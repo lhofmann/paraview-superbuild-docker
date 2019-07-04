@@ -1,16 +1,5 @@
 #!/bin/bash
 
-set -e
-
-readonly superbuild_version="v5.6.0"
-readonly paraview_version="v5.6.0-295-g74fd1a6d5a"
-
-cd /home/paraview
-git clone --recursive --branch "$superbuild_version" --depth 1 https://gitlab.kitware.com/paraview/paraview-superbuild.git
-
-mkdir -p /home/paraview/build
-cd /home/paraview/build
-
 cmake \
     "--no-warn-unused-cli"  \
     "-DCTEST_USE_LAUNCHERS:BOOL=1"  \
@@ -61,6 +50,3 @@ cmake \
     "-DCMAKE_INSTALL_PREFIX=/home/paraview/package" \
     "-GUnix Makefiles"  \
     "/home/paraview/paraview-superbuild" 
-
-make -j1
-make install

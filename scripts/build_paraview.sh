@@ -1,21 +1,5 @@
 #!/bin/bash
 
-set -e
-
-readonly superbuild_version="v5.7.0-RC1"
-readonly paraview_version="v5.7.0-RC1"
-
-cd /home/paraview
-git clone --recursive --branch "$superbuild_version" --depth 1 https://gitlab.kitware.com/paraview/paraview-superbuild.git
-cd paraview-superbuild/superbuild
-
-# workaround for issue https://gitlab.kitware.com/paraview/paraview-superbuild/issues/123
-git checkout adc5ab1a8cba4e2c29341fb095735f3c23e31e82
-sed -i '28d' CMakeLists.txt
-
-mkdir -p /home/paraview/build
-cd /home/paraview/build
-
 cmake \
     "--no-warn-unused-cli" \
     "-DCTEST_USE_LAUNCHERS:BOOL=1" \
@@ -68,6 +52,3 @@ cmake \
     "-DCMAKE_INSTALL_PREFIX=/home/paraview/package" \
     "-GUnix Makefiles" \
     "/home/paraview/paraview-superbuild" 
-
-make -j1
-make install
