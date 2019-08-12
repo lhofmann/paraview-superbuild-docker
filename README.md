@@ -10,6 +10,9 @@ Three variants for each version are provided: Qt5 GUI (no suffix), off-screen so
 
 | ParaView Release | Docker Image |
 |--|--|
+| [ParaView-5.7.0-RC2-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.7/ParaView-5.7.0-RC2-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC2 |
+| [ParaView-5.7.0-RC2-osmesa-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.7/ParaView-5.7.0-RC2-osmesa-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC2-osmesa |
+| [ParaView-5.7.0-RC2-egl-MPI-Linux-Python3.7-64bit](ttps://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0-RC2/ParaView-5.7.0-RC2-egl-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC2-egal |
 | [ParaView-5.7.0-RC1-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.7.0-RC1-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1 |
 | [ParaView-5.7.0-RC1-osmesa-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.7.0-RC1-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1-osmesa |
 | [ParaView-5.7.0-RC1-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0-RC1/ParaView-5.7.0-RC1-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1-egl |
@@ -33,7 +36,7 @@ docker run -itd                              \
   --name build                               \
   --user "$(id -u ${USER}):$(id -g ${USER})" \
   --volume="$(pwd)/shared:/mnt/shared:ro"    \
-  lhofmann/paraview-superbuild:5.7.0-RC1  
+  lhofmann/paraview-superbuild:5.7.0-RC2
 ```
 Run CMake and build in `/tmp/build`:
 ```bash
@@ -64,5 +67,5 @@ git clone https://github.com/lhofmann/paraview-superbuild-docker.git
 ./paraview-superbuild-docker/build.sh [osmesa|egl]
 ```
 
-The script will create docker images with tag `$USER/paraview-superbuild:5.7.0-RC1` for the `default` stage and `$USER/paraview-superbuild:5.7.0-RC1-base`, `$USER/paraview-superbuild:5.7.0-RC1-builder`, `$USER/paraview-superbuild:5.7.0-RC1-package` for the other stages.
+The script will create docker images with tag `$USER/paraview-superbuild:5.7.0-RC2` for the `default` stage and `$USER/paraview-superbuild:5.7.0-RC2-base`, `$USER/paraview-superbuild:5.7.0-RC2-builder`, `$USER/paraview-superbuild:5.7.0-RC2-package` for the other stages.
 
