@@ -38,7 +38,7 @@ RUN mkdir -p /home/paraview/build \
     && git clone --recursive --branch "$superbuild_version" --depth 1 https://gitlab.kitware.com/paraview/paraview-superbuild.git \
     # workaround for issue https://gitlab.kitware.com/paraview/paraview-superbuild/issues/123
     && cd paraview-superbuild/superbuild \
-    && git checkout adc5ab1a8cba4e2c29341fb095735f3c23e31e82 \
-    && sed -i '28d' CMakeLists.txt
+    && sed -i 's,_superbuild_check_up_to_date(),,' CMakeLists.txt \
+    && sed -i 's,if new_path:,if new_path and len(new_path) <= 32:,' cmake/scripts/fixup_bundle.unix.py
 
 WORKDIR /home/paraview/build
