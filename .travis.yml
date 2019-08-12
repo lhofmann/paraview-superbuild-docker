@@ -17,16 +17,22 @@ matrix:
       - docker_image="lhofmann/paraview-superbuild:5.6.0-egl"
       - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.0/ParaView-5.6.0-egl-MPI-Linux-64bit.tar.gz"
       - release_name="ParaView-5.6.0-egl-MPI-Linux-64bit"
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libglu1-mesa libsm6 libxt6
 script:
   - docker pull ${docker_image}
-  - chmod -R 777 .
-  - docker run -itd --name build --volume="`pwd`:/mnt:rw" ${docker_image}  
-  - docker exec build /usr/bin/scl enable devtoolset-4 -- cmake -H/mnt/shared/example -B/mnt/shared/build
-  - docker exec build cmake --build /mnt/shared/build -- -j2
+  - docker run -itd                              \
+      --name build                               \
+      --user "$(id -u ${USER}):$(id -g ${USER})" \
+      --volume="$(pwd):/mnt:ro"                  \
+      ${docker_image}  
+  - docker exec build /usr/bin/scl enable devtoolset-4 -- cmake -H/mnt/shared/example -B/tmp/build
+  - docker exec build cmake --build /tmp/build -- -j2
   - wget "${download_url}" -O ${release_name}.tar.gz
   - tar xzf ${release_name}.tar.gz
   - mkdir -p ${release_name}/lib/plugins/
-  - cp shared/build/libExamplePlugin.so ${release_name}/lib/plugins/
+  - docker cp build:/tmp/build/libExamplePlugin.so ${release_name}/lib/plugins/
   - if [ $release_name == "ParaView-5.6.0-egl-MPI-Linux-64bit" ]; then
     sudo apt-get update;
     sudo apt-get install -y nvidia-384;
