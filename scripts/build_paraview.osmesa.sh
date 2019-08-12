@@ -35,6 +35,8 @@ cmake \
     "-DENABLE_boost:BOOL=ON"  \
     "-DENABLE_vortexfinder2:BOOL=OFF"  \
     "-DENABLE_python:BOOL=ON"  \
+    "-DENABLE_python3:BOOL=ON" \
+    "-DENABLE_python2:BOOL=OFF" \
     "-DUSE_NONFREE_COMPONENTS:BOOL=ON"  \
     "-DENABLE_matplotlib:BOOL=ON"  \
     "-DENABLE_las:BOOL=ON"  \
