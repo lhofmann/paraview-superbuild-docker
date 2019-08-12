@@ -22,11 +22,12 @@ before_install:
   - sudo apt-get install -y libglu1-mesa libsm6 libxt6
 script:
   - docker pull ${docker_image}
-  - docker run -itd                              \
-      --name build                               \
-      --user "$(id -u ${USER}):$(id -g ${USER})" \
-      --volume="$(pwd):/mnt:ro"                  \
-      ${docker_image}  
+  - docker run 
+      -itd
+      --name build
+      --user "$(id -u ${USER}):$(id -g ${USER})"
+      --volume="$(pwd):/mnt:ro"
+      ${docker_image}
   - docker exec build /usr/bin/scl enable devtoolset-4 -- cmake -H/mnt/shared/example -B/tmp/build
   - docker exec build cmake --build /tmp/build -- -j2
   - wget "${download_url}" -O ${release_name}.tar.gz
