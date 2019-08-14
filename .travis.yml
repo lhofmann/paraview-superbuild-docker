@@ -2,6 +2,7 @@ dist: bionic
 sudo: required
 git:
   depth: 3
+  submodules: false
 services:
   - docker
 matrix:
@@ -37,6 +38,8 @@ matrix:
       - variant="-egl"
       - paraview_version="5.7"
 before_install:
+  - sed -ie 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
   - sudo apt-get update
   - sudo apt-get install -y libglu1-mesa libsm6 libxt6
   - if [ $variant == "-egl" ]; then
