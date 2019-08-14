@@ -6,36 +6,46 @@ services:
 matrix:
   include:
     - env:
-      - docker_image="lhofmann/paraview-superbuild:5.6.0"
       - download_url="https://www.paraview.org/files/v5.6/ParaView-5.6.0-MPI-Linux-64bit.tar.gz"
       - release_name="ParaView-5.6.0-MPI-Linux-64bit"
+      - variant=""
+      - paraview_version="5.6"
     - env:
-      - docker_image="lhofmann/paraview-superbuild:5.6.0-osmesa"
       - download_url="https://www.paraview.org/files/v5.6/ParaView-5.6.0-osmesa-MPI-Linux-64bit.tar.gz"
       - release_name="ParaView-5.6.0-osmesa-MPI-Linux-64bit"
+      - variant="-osmesa"
+      - paraview_version="5.6"
     - env:
-      - docker_image="lhofmann/paraview-superbuild:5.6.0-egl"
       - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.0/ParaView-5.6.0-egl-MPI-Linux-64bit.tar.gz"
       - release_name="ParaView-5.6.0-egl-MPI-Linux-64bit"
+      - variant="-egl"
+      - paraview_version="5.6"
+    - env:
+      - download_url="https://www.paraview.org/files/v5.7/ParaView-5.7.0-RC2-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.7.0-RC2-MPI-Linux-Python3.7-64bit"
+      - variant=""
+      - paraview_version="5.7"
+    - env:
+      - download_url="https://www.paraview.org/files/v5.7/ParaView-5.7.0-RC2-osmesa-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.7.0-RC2-osmesa-MPI-Linux-Python3.7-64bit"
+      - variant="-osmesa"
+      - paraview_version="5.7"
+    - env:
+      - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0-RC2/ParaView-5.7.0-RC2-egl-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.7.0-RC2-egl-MPI-Linux-Python3.7-64bit"
+      - variant="-egl"
+      - paraview_version="5.7"
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y libglu1-mesa libsm6 libxt6
-script:
-  - docker pull ${docker_image}
-  - docker run 
-      -itd
-      --name build
-      --user "$(id -u ${USER}):$(id -g ${USER})"
-      --volume="$(pwd):/mnt:ro"
-      ${docker_image}
-  - docker exec build /usr/bin/scl enable devtoolset-4 -- cmake -H/mnt/shared/example -B/tmp/build
-  - docker exec build cmake --build /tmp/build -- -j2
-  - wget "${download_url}" -O ${release_name}.tar.gz
-  - tar xzf ${release_name}.tar.gz
-  - mkdir -p ${release_name}/lib/plugins/
-  - docker cp build:/tmp/build/libExamplePlugin.so ${release_name}/lib/plugins/
-  - if [ $release_name == "ParaView-5.6.0-egl-MPI-Linux-64bit" ]; then
+  - if [ $variant == "-egl" ]; then
     sudo apt-get update;
     sudo apt-get install -y nvidia-384;
-    fi
-  - ./${release_name}/bin/pvpython .travis.test.py
+    fi  
+script:
+  - cd examples
+  - ./build_paraview-vtk-template_ParaView${paraview_version}.sh ${variant}
+  - wget "${download_url}" -O ${release_name}.tar.gz
+  - tar xzf ${release_name}.tar.gz
+  - ./${release_name}/bin/pvpython paraview-vtk-template/tests/test_paraview.py
+  - ./${release_name}/bin/pvpython paraview-vtk-template/tests/test_vtk.py

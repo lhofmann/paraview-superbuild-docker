@@ -1,0 +1,3 @@
+[submodule "examples/paraview-vtk-template"]
+	path = examples/paraview-vtk-template
+	url = ../paraview-vtk-template
