@@ -28,7 +28,7 @@ This docker images are partially based on the Dockerfiles found on the [ParaView
 
 Prebuilt docker images can be found on [Docker Hub](https://hub.docker.com/r/lhofmann/paraview-superbuild). If you want to build your own docker images, see the instructions below (building takes about three hours on a desktop machine).
 
-The images have preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-6`.
+The images have preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-6` (version 5.6.0 uses `devtoolset-4`; you may also install your own toolset, see below).
 
 Start a detached container with name `build` and directory `./shared/` mounted to `/mnt/shared`:
 ```bash
@@ -50,6 +50,22 @@ docker cp build:/tmp/build/libExamplePlugin.so .
 
 This is also demonstrated in the [Travis build](https://travis-ci.org/lhofmann/paraview-superbuild-docker), which builds a plugin using the docker image and executes it using the ParaView binary distribution. See also [.travis.yml](.travis.yml).
 
+Full working examples can be found in [examples/](examples).
+
+## Extending the docker images
+
+The docker images run as non-root user `paraview`. If you need additional dependencies for your builds, create a derived docker image:
+```dockerfile
+ARG paraview_version="5.7.0-RC2"
+FROM lhofmann/paraview-superbuild:${paraview_version}
+USER root
+
+# install additional dependencies
+# e.g.:
+# RUN yum install -y ...
+
+USER paraview
+```
 
 
 ## Building the docker images
