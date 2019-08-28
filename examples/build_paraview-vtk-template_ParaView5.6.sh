@@ -5,7 +5,7 @@
 
 set -e
 
-readonly paraview_version="5.6.0$1"
+readonly paraview_version="5.6.2$1"
 readonly image=lhofmann/paraview-superbuild:${paraview_version}
 readonly container=build-${paraview_version}
 readonly cwd="$(dirname "$(readlink -f "$0")")"
@@ -16,7 +16,8 @@ docker run -itd \
   --volume="${cwd}/paraview-vtk-template:/mnt/source:rw" \
   ${image}
 
-docker exec ${container} /usr/bin/scl enable devtoolset-4 -- cmake \
+# note: the paraview v5.6.0 images have devtoolset-4 instead of devtoolset-6 installed!
+docker exec ${container} /usr/bin/scl enable devtoolset-6 -- cmake \
   -B/tmp/build \
   -H/mnt/source \
   -DCMAKE_INSTALL_PREFIX=/tmp/install/ParaView-${paraview_version}-MPI-Linux-64bit

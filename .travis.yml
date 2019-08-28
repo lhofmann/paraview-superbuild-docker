@@ -8,18 +8,18 @@ services:
 matrix:
   include:
     - env:
-      - download_url="https://www.paraview.org/files/v5.6/ParaView-5.6.0-MPI-Linux-64bit.tar.gz"
-      - release_name="ParaView-5.6.0-MPI-Linux-64bit"
+      - download_url="https://www.paraview.org/files/v5.6/ParaView-5.6.2-MPI-Linux-64bit.tar.gz"
+      - release_name="ParaView-5.6.2-MPI-Linux-64bit"
       - variant=""
       - paraview_version="5.6"
     - env:
-      - download_url="https://www.paraview.org/files/v5.6/ParaView-5.6.0-osmesa-MPI-Linux-64bit.tar.gz"
-      - release_name="ParaView-5.6.0-osmesa-MPI-Linux-64bit"
+      - download_url="https://www.paraview.org/files/v5.6/ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz"
+      - release_name="ParaView-5.6.2-osmesa-MPI-Linux-64bit"
       - variant="-osmesa"
       - paraview_version="5.6"
     - env:
-      - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.0/ParaView-5.6.0-egl-MPI-Linux-64bit.tar.gz"
-      - release_name="ParaView-5.6.0-egl-MPI-Linux-64bit"
+      - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-egl-MPI-Linux-64bit.tar.gz"
+      - release_name="ParaView-5.6.2-egl-MPI-Linux-64bit"
       - variant="-egl"
       - paraview_version="5.6"
     - env:
