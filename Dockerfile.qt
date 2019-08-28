@@ -17,6 +17,12 @@ FROM base as default
 COPY --from=builder /home/paraview/build/install /home/paraview/build/install
 ENV CMAKE_PREFIX_PATH=/home/paraview/build/install
 
+# workaround for wrong opray include directory
+# https://gitlab.kitware.com/paraview/paraview-superbuild/commit/c371147683879800b1fbf2257a35410b5a1550f7
+USER root
+RUN ln -s ../ospray /home/paraview/build/install/include/paraview-5.6/ospray
+USER paraview
+
 FROM default as package
 COPY --from=builder /home/paraview/package /home/paraview/package
 
