@@ -17,7 +17,7 @@ Three variants for each version are provided: Qt5 GUI (no suffix), off-screen so
 | [ParaView-5.7.0-RC1-osmesa-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.7.0-RC1-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1-osmesa |
 | [ParaView-5.7.0-RC1-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0-RC1/ParaView-5.7.0-RC1-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1-egl |
 | [ParaView-5.6.2-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.2-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2 |
-| [ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-osmesa |
+| [ParaView-5.6.2-osmesa-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-osmesa |
 | [ParaView-5.6.2-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-egl |
 | [ParaView-5.6.0-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.0-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.0 |
 | [ParaView-5.6.0-osmesa-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.0-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.0-osmesa |
