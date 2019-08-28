@@ -16,8 +16,11 @@ Three variants for each version are provided: Qt5 GUI (no suffix), off-screen so
 | [ParaView-5.7.0-RC1-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.7.0-RC1-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1 |
 | [ParaView-5.7.0-RC1-osmesa-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.7.0-RC1-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1-osmesa |
 | [ParaView-5.7.0-RC1-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0-RC1/ParaView-5.7.0-RC1-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-RC1-egl |
+| [ParaView-5.6.2-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.2-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2 |
+| [ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-osmesa |
+| [ParaView-5.6.2-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-egl |
 | [ParaView-5.6.0-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.0-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.0 |
-| [ParaView-5.6.0-osmesa-MPI-Linux-64bit.tar.gz](https://www.paraview.org/files/v5.6/ParaView-5.6.0-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.0-osmesa |
+| [ParaView-5.6.0-osmesa-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.0-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.0-osmesa |
 | [ParaView-5.6.0-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.0/ParaView-5.6.0-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.0-egl |
 
 This docker images are partially based on the Dockerfiles found on the [ParaView mailing list](https://public.kitware.com/pipermail/paraview/2017-April/039841.html) and in the [ParaView superbuild repository](https://gitlab.kitware.com/paraview/paraview-superbuild/tree/master/Scripts/docker/el6). The CMake configuration is taken from the [ParaView CDash](https://open.cdash.org/index.php?project=ParaView).
@@ -79,7 +82,7 @@ This is a multi-stage Dockerfile with four stages: `base`, `builder`, `default` 
 
 The docker images [lhofmann/paraview-superbuild](https://hub.docker.com/r/lhofmann/paraview-superbuild) contain the `default` stage. To replicate these images, run
 ```bash
-git clone https://github.com/lhofmann/paraview-superbuild-docker.git
+git clone --branch "5.7.0-RC2" https://github.com/lhofmann/paraview-superbuild-docker.git
 ./paraview-superbuild-docker/build.sh [osmesa|egl]
 ```
 
