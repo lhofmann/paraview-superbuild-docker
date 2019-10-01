@@ -33,7 +33,7 @@ docker run -itd                              \
   --name build                               \
   --user "$(id -u ${USER}):$(id -g ${USER})" \
   --volume="$(pwd)/shared:/mnt/shared:ro"    \
-  lhofmann/paraview-superbuild:5.7.0-RC2
+  lhofmann/paraview-superbuild:5.7.0
 ```
 Run CMake and build in `/tmp/build`:
 ```bash
@@ -53,7 +53,7 @@ Full working examples can be found in [examples/](examples).
 
 The docker images run as non-root user `paraview`. If you need additional dependencies for your builds, create a derived docker image:
 ```dockerfile
-ARG paraview_version="5.7.0-RC2"
+ARG paraview_version="5.7.0"
 FROM lhofmann/paraview-superbuild:${paraview_version}
 USER root
 
@@ -82,6 +82,24 @@ git clone --branch "5.7.0" https://github.com/lhofmann/paraview-superbuild-docke
 
 The script will create docker images with tag `$USER/paraview-superbuild:5.7.0` for the `default` stage and `$USER/paraview-superbuild:5.7.0-base`, `$USER/paraview-superbuild:5.7.0-builder`, `$USER/paraview-superbuild:5.7.0-package` for the other stages.
 
+## Changelog
+
+### 5.7.0
+
+* changed build path to `/home/paraview/buildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuild` as workaround for [issue #123](https://gitlab.kitware.com/paraview/paraview-superbuild/issues/123)
+* additionally define `TBB_ROOT` (fixes CMake sometimes failing)
+* updated extract-qt-installer to revision 2fa3063 of github.com/benlau/qtci
+* removed symlink to ospray include directory, as it is no longer needed
+
+### 5.6.2
+
+* add symlink at `build/install/include/paraview-5.6/ospray` to `build/install/include/ospray`
+
+### 5.7.0-RC1
+
+* use `devtoolset-6` (gcc 6) instead of `devtoolset-4`
+* update to Qt 5.12.1
+* update to CMake 3.13.4
 
 ## Old Releases
 
