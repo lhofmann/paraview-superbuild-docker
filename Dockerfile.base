@@ -28,17 +28,15 @@ RUN scl enable devtoolset-${DEVTOOLSET_VERSION} -- sh /home/paraview/install_cma
 
 ENV PATH="/home/paraview/cmake/bin:${PATH}"
 
-ARG superbuild_version="v5.7.0-RC1"
+ARG superbuild_version="v5.7.0"
 ENV superbuild_version=${superbuild_version}
-ARG paraview_version="v5.7.0-RC1"
+ARG paraview_version="v5.7.0"
 ENV paraview_version=${paraview_version}
 
-RUN mkdir -p /home/paraview/build \
+# use a very long build path, workaround for issue
+# https://gitlab.kitware.com/paraview/paraview-superbuild/issues/123
+RUN mkdir -p /home/paraview/buildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuild \
     && cd /home/paraview \
-    && git clone --recursive --branch "$superbuild_version" --depth 1 https://gitlab.kitware.com/paraview/paraview-superbuild.git \
-    # workaround for issue https://gitlab.kitware.com/paraview/paraview-superbuild/issues/123
-    && cd paraview-superbuild/superbuild \
-    && sed -i 's,_superbuild_check_up_to_date(),,' CMakeLists.txt \
-    && sed -i 's,if new_path:,if new_path and len(new_path) <= 32:,' cmake/scripts/fixup_bundle.unix.py
+    && git clone --recursive --branch "$superbuild_version" --depth 1 https://gitlab.kitware.com/paraview/paraview-superbuild.git
 
-WORKDIR /home/paraview/build
+WORKDIR /home/paraview/buildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuildbuild
