@@ -10,9 +10,6 @@ function usage() {
     exit -1
 }
 
-unset DISPLAY
-echo $DISPLAY
-
 LIST_PACKAGES=0
 
 getopt --test > /dev/null 2>&1
@@ -124,12 +121,16 @@ var status = {
 }
 
 function tryFinish() {
-
 	if (status.finishedPageVisible && status.installationFinished) {
-		if (status.widget.RunItCheckBox) {
-			status.widget.RunItCheckBox.setChecked(false);
-		}
-		log("Press Finish Button");
+        if (status.widget.LaunchQtCreatorCheckBoxForm) {
+            // Disable this checkbox for minimal platform
+            status.widget.LaunchQtCreatorCheckBoxForm.launchQtCreatorCheckBox.setChecked(false);
+        }
+        if (status.widget.RunItCheckBox) {
+            // LaunchQtCreatorCheckBoxForm may not work for newer versions.
+            status.widget.RunItCheckBox.setChecked(false);
+        }
+        log("Press Finish Button");
 	    gui.clickButton(buttons.FinishButton);
 	}
 }
@@ -142,6 +143,7 @@ function Controller() {
     });
     installer.setMessageBoxAutomaticAnswer("OverwriteTargetDirectory", QMessageBox.Yes);
     installer.setMessageBoxAutomaticAnswer("installationErrorWithRetry", QMessageBox.Ignore);
+    installer.setMessageBoxAutomaticAnswer("XcodeError", QMessageBox.Ok);
     
     // Allow to cancel installation for arguments --list-packages
     installer.setMessageBoxAutomaticAnswer("cancelInstallation", QMessageBox.Yes);
@@ -149,13 +151,21 @@ function Controller() {
 
 Controller.prototype.WelcomePageCallback = function() {
     log("Welcome Page");
+
     gui.clickButton(buttons.NextButton);
 
     var widget = gui.currentPageWidget();
 
-    widget.completeChanged.connect(function() {
+	/* 
+	   Online installer 3.0.6 
+	   - It must disconnect the completeChanged callback after used, otherwise it will click the 'next' button on another pages
+	 */
+    var callback = function() {
         gui.clickButton(buttons.NextButton);
-    });
+        widget.completeChanged.disconnect(callback);
+	}
+
+    widget.completeChanged.connect(callback);
 }
 
 Controller.prototype.CredentialsPageCallback = function() {
@@ -177,20 +187,23 @@ Controller.prototype.CredentialsPageCallback = function() {
 }
 
 Controller.prototype.ComponentSelectionPageCallback = function() {
-	log("ComponentSelectionPageCallback");
+    log("ComponentSelectionPageCallback");
 
-    if ($LIST_PACKAGES) {
+    function list_packages() {
       var components = installer.components();
       log("Available components: " + components.length);
       var packages = ["Packages: "];
 
       for (var i = 0 ; i < components.length ;i++) {
-		  packages.push(components[i].name);
+          packages.push(components[i].name);
       }
-	  log(packages.join(" "));
+      log(packages.join(" "));
+    }
       
-      gui.clickButton(buttons.CancelButton);
-      return;
+    if ($LIST_PACKAGES) {
+        list_packages();
+        gui.clickButton(buttons.CancelButton);
+        return;
     }
 
     log("Select components");
@@ -204,10 +217,30 @@ Controller.prototype.ComponentSelectionPageCallback = function() {
     var packages = trim("$PACKAGES").split(",");
     if (packages.length > 0 && packages[0] !== "") {
         widget.deselectAll();
+        var components = installer.components();
+        var allfound = true;
         for (var i in packages) {
             var pkg = trim(packages[i]);
-	        log("Select " + pkg);
-	        widget.selectComponent(pkg);
+            var found = false;
+            for (var j in components) {
+                if (components[j].name === pkg) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                allfound = false;
+                log("ERROR: Package " + pkg + " not found.");
+            } else {
+                log("Select " + pkg);
+                widget.selectComponent(pkg);
+            }
+        }
+        if (!allfound) {
+            list_packages();
+            // TODO: figure out how to set non-zero exit status.
+            gui.clickButton(buttons.CancelButton);
+            return;
         }
     } else {
        log("Use default component list");
@@ -219,9 +252,16 @@ Controller.prototype.ComponentSelectionPageCallback = function() {
 Controller.prototype.IntroductionPageCallback = function() {
     log("Introduction Page");
     log("Retrieving meta information from remote repository");
-    gui.clickButton(buttons.NextButton);
+    
+   	/* 
+	   Online installer 3.0.6 
+	   - Don't click buttons.NextButton directly. It will skip the componenet selection.
+    */
+    
+	if (installer.isOfflineOnly()) {
+		gui.clickButton(buttons.NextButton);
+	}  
 }
-
 
 Controller.prototype.TargetDirectoryPageCallback = function() {
     log("Set target installation page: $OUTPUT");
@@ -243,12 +283,15 @@ Controller.prototype.LicenseAgreementPageCallback = function() {
     }
 
     gui.clickButton(buttons.NextButton);
-
 }
 
 Controller.prototype.ReadyForInstallationPageCallback = function() {
     log("Ready to install");
-    gui.clickButton(buttons.CommitButton);
+
+    // Bug? If commit button pressed too quickly finished callback might not show the checkbox to disable running qt creator
+    // Behaviour started around 5.10. You don't actually have to press this button at all with those versions, even though gui.isButtonEnabled() returns true.
+    
+    gui.clickButton(buttons.CommitButton, 200);
 }
 
 Controller.prototype.PerformInstallationPageCallback = function() {
@@ -261,16 +304,6 @@ Controller.prototype.FinishedPageCallback = function() {
 
     var widget = gui.currentPageWidget();
 
-    if (widget.LaunchQtCreatorCheckBoxForm) {
-        // No this form for minimal platform
-        widget.LaunchQtCreatorCheckBoxForm.launchQtCreatorCheckBox.setChecked(false);
-    }
-    
-    if (widget.RunItCheckBox) {
-		// LaunchQtCreatorCheckBoxForm may not works for newer version.
-		widget.RunItCheckBox.setChecked(false);
-	}
-
 	// Bug? Qt 5.9.5 and Qt 5.9.6 installer show finished page before the installation completed
 	// Don't press "finishButton" immediately
     
@@ -282,10 +315,17 @@ Controller.prototype.FinishedPageCallback = function() {
 EOF
 
 chmod u+x $1
+if [ -n "$QT_CI_DEBUG" ] 
+then
+	$INSTALLER -v --script $SCRIPT | grep "\(QTCI\|operation\)"
+	exit 0
+fi
+
+unset DISPLAY
 
 if [ -n "$DISABLE_PROGRESS_REPORT" ]
 then
-	QT_QPA_PLATFORM=minimal $INSTALLER $ARGS --script $SCRIPT
+	QT_QPA_PLATFORM=minimal $INSTALLER --script $SCRIPT 
 else
 	ARGS="-v"
 
