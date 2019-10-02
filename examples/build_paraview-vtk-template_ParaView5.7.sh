@@ -5,7 +5,7 @@
 
 set -e
 
-readonly paraview_version="5.7.0-RC2$1"
+readonly paraview_version="5.7.0$1"
 readonly image=lhofmann/paraview-superbuild:${paraview_version}
 readonly container=build-${paraview_version}
 readonly cwd="$(dirname "$(readlink -f "$0")")"

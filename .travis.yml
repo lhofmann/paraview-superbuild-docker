@@ -23,18 +23,18 @@ matrix:
       - variant="-egl"
       - paraview_version="5.6"
     - env:
-      - download_url="https://www.paraview.org/files/v5.7/ParaView-5.7.0-RC2-MPI-Linux-Python3.7-64bit.tar.gz"
-      - release_name="ParaView-5.7.0-RC2-MPI-Linux-Python3.7-64bit"
+      - download_url="https://www.paraview.org/files/v5.7/ParaView-5.7.0-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.7.0-MPI-Linux-Python3.7-64bit"
       - variant=""
       - paraview_version="5.7"
     - env:
-      - download_url="https://www.paraview.org/files/v5.7/ParaView-5.7.0-RC2-osmesa-MPI-Linux-Python3.7-64bit.tar.gz"
-      - release_name="ParaView-5.7.0-RC2-osmesa-MPI-Linux-Python3.7-64bit"
+      - download_url="https://www.paraview.org/files/v5.7/ParaView-5.7.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.7.0-osmesa-MPI-Linux-Python3.7-64bit"
       - variant="-osmesa"
       - paraview_version="5.7"
     - env:
-      - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0-RC2/ParaView-5.7.0-RC2-egl-MPI-Linux-Python3.7-64bit.tar.gz"
-      - release_name="ParaView-5.7.0-RC2-egl-MPI-Linux-Python3.7-64bit"
+      - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0/ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit"
       - variant="-egl"
       - paraview_version="5.7"
 before_install:
