@@ -8,10 +8,11 @@ RUN yum install -y \
     libXinerama-devel libXrandr-devel libXrender-devel libxkbcommon-x11 \
     mesa-libGL-devel mesa-libGLU-devel mesa-dri-drivers
 
-ENV DEVTOOLSET_VERSION=6
+ENV DEVTOOLSET_VERSION=8
 
-RUN yum install -y centos-release-scl \
-    && yum install -y devtoolset-${DEVTOOLSET_VERSION}-gcc devtoolset-${DEVTOOLSET_VERSION}-gcc-c++ \
+RUN yum install -y centos-release-scl yum-utils
+RUN yum-config-manager --enable centos-sclo-rh-testing
+RUN yum install -y devtoolset-${DEVTOOLSET_VERSION}-gcc devtoolset-${DEVTOOLSET_VERSION}-gcc-c++ \
     devtoolset-${DEVTOOLSET_VERSION}-gcc-gfortran
 
 RUN yum clean all

@@ -1,10 +1,19 @@
 ARG IMAGE_NAME
-FROM ${IMAGE_NAME} as base
+FROM ${IMAGE_NAME} as intermediate
+
+ARG QT_LOGIN=""
+ARG QT_PASSWORD=""
+ENV QT_CI_LOGIN=${QT_LOGIN}
+ENV QT_CI_PASSWORD=${QT_PASSWORD}
 
 COPY scripts/download_qt.sh /home/paraview/download_qt.sh
 COPY scripts/extract-qt-installer /home/paraview/extract-qt-installer
 RUN sh /home/paraview/download_qt.sh
+
+FROM ${IMAGE_NAME} as base
+
 ENV Qt5_DIR="/home/paraview/qt/5.12.1/gcc_64/lib/cmake/Qt5"
+COPY --from=intermediate /home/paraview/qt /home/paraview/qt
 
 FROM base as builder
 

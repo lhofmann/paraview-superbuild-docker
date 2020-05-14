@@ -25,7 +25,7 @@ This docker images are partially based on the Dockerfiles found on the [ParaView
 
 Prebuilt docker images can be found on [Docker Hub](https://hub.docker.com/r/lhofmann/paraview-superbuild). If you want to build your own docker images, see the instructions below (building takes about three hours on a desktop machine).
 
-The images have preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-6` (version 5.6.0 uses `devtoolset-4`; you may also install your own toolset, see below).
+The images have preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-8` (version 5.7.0 uses `devltoolset-6` and version 5.6.0 uses `devtoolset-4`; you may also install your own toolset, see below).
 
 Start a detached container with name `build` and directory `./shared/` mounted to `/mnt/shared`:
 ```bash
@@ -33,11 +33,11 @@ docker run -itd                              \
   --name build                               \
   --user "$(id -u ${USER}):$(id -g ${USER})" \
   --volume="$(pwd)/shared:/mnt/shared:ro"    \
-  lhofmann/paraview-superbuild:5.7.0
+  lhofmann/paraview-superbuild:5.8.0
 ```
 Run CMake and build in `/tmp/build`:
 ```bash
-docker exec build /usr/bin/scl enable devtoolset-6 -- cmake -B/tmp/build -H/mnt/shared/example
+docker exec build /usr/bin/scl enable devtoolset-8 -- cmake -B/tmp/build -H/mnt/shared/example
 docker exec build cmake --build /tmp/build
 ```
 The build artifacts are now in `/tmp/build` within the docker container. You may copy the required files to the host:
@@ -53,7 +53,7 @@ Full working examples can be found in [examples/](examples).
 
 The docker images run as non-root user `paraview`. If you need additional dependencies for your builds, create a derived docker image:
 ```dockerfile
-ARG paraview_version="5.7.0"
+ARG paraview_version="5.8.0"
 FROM lhofmann/paraview-superbuild:${paraview_version}
 USER root
 
@@ -76,13 +76,23 @@ This is a multi-stage Dockerfile with four stages: `base`, `builder`, `default` 
 
 The docker images [lhofmann/paraview-superbuild](https://hub.docker.com/r/lhofmann/paraview-superbuild) contain the `default` stage. To replicate these images, run
 ```bash
-git clone --branch "5.7.0" https://github.com/lhofmann/paraview-superbuild-docker.git
+git clone https://github.com/lhofmann/paraview-superbuild-docker.git
 ./paraview-superbuild-docker/build.sh [osmesa|egl]
 ```
 
-The script will create docker images with tag `$USER/paraview-superbuild:5.7.0` for the `default` stage and `$USER/paraview-superbuild:5.7.0-base`, `$USER/paraview-superbuild:5.7.0-builder`, `$USER/paraview-superbuild:5.7.0-package` for the other stages.
+The script will create docker images with tag `$USER/paraview-superbuild:5.78.0` for the `default` stage and `$USER/paraview-superbuild:5.8.0-base`, `$USER/paraview-superbuild:5.8.0-builder`, `$USER/paraview-superbuild:5.8.0-package` for the other stages.
+
 
 ## Changelog
+
+### 5.8.0
+
+* switched to `devtoolset-8` (gcc 8)
+* Qt now requires a qt.io account for downloading binaries
+    * building paraview using Qt requires the account set as environment variables `QT_LOGIN` and `QT_PASSWORD`
+    * some care is taken, that the login is not leaked into the final docker image, by using another intermediate stage (tagged -intermediate)
+* cleaned up CMake configuration according to https://gitlab.kitware.com/paraview/paraview-plugin-builder
+* `build.sh` also creates a binary .tar.gz package
 
 ### 5.7.0
 
