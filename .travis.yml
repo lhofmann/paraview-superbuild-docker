@@ -37,6 +37,21 @@ matrix:
       - release_name="ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit"
       - variant="-egl"
       - paraview_version="5.7"
+    - env:
+      - download_url="https://www.paraview.org/files/v5.8/ParaView-5.8.0-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.8.0-MPI-Linux-Python3.7-64bit"
+      - variant=""
+      - paraview_version="5.8"
+    - env:
+      - download_url="https://www.paraview.org/files/v5.8/ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit"
+      - variant="-osmesa"
+      - paraview_version="5.8"
+    - env:
+      - download_url="https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.8.0/ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit.tar.gz"
+      - release_name="ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit"
+      - variant="-egl"
+      - paraview_version="5.8"      
 before_install:
   - sed -ie 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
