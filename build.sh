@@ -33,7 +33,7 @@ readonly dockerfile="${BASE_DIR}/Dockerfile${file_suffix}"
 build_args="--build-arg IMAGE_NAME=${base_image} --build-arg QT_LOGIN=${QT_LOGIN} --build-arg QT_PASSWORD=${QT_PASSWORD}"
 
 if [ ${file_suffix} = ".qt" ]; then
-    if [ -z "${QT_LOGIN}" ] || [ -z "${QT_PASSWORD}"]; then
+    if [ -z "${QT_LOGIN}" ] || [ -z "${QT_PASSWORD}" ]; then
 	echo "ERROR: Downloading Qt requires a qt.io account set as environment variables QT_LOGIN/QT_PASSWORD."
 	exit 1
     fi
