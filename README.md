@@ -10,9 +10,12 @@ Three variants for each version are provided: Qt5 GUI (no suffix), off-screen so
 
 | ParaView Release | Docker Image |
 |--|--|
+| [ParaView-5.8.0-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.8/ParaView-5.8.0-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0 |
+| [ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.8/ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0-osmesa |
+| [ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.8.0/ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0-egl |
 | [ParaView-5.7.0-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.7/ParaView-5.7.0-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0 |
 | [ParaView-5.7.0-osmesa-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.7/ParaView-5.7.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-osmesa |
-| [ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0-RC2/ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-egl |
+| [ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0/ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.7.0-egl |
 | [ParaView-5.6.2-MPI-Linux-64bit](https://www.paraview.org/files/v5.6/ParaView-5.6.2-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2 |
 | [ParaView-5.6.2-osmesa-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-osmesa |
 | [ParaView-5.6.2-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-egl |
