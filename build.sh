@@ -30,17 +30,7 @@ docker build --network=host --rm -t "${base_image}" -f "${BASE_DIR}/Dockerfile.b
 readonly tag="${USER}/paraview-superbuild:${paraview_version}${tag_suffix}"
 readonly dockerfile="${BASE_DIR}/Dockerfile${file_suffix}"
 
-build_args="--build-arg IMAGE_NAME=${base_image} --build-arg QT_LOGIN=${QT_LOGIN} --build-arg QT_PASSWORD=${QT_PASSWORD}"
-
-if [ ${file_suffix} = ".qt" ]; then
-    if [ -z "${QT_LOGIN}" ] || [ -z "${QT_PASSWORD}" ]; then
-	echo "ERROR: Downloading Qt requires a qt.io account set as environment variables QT_LOGIN/QT_PASSWORD."
-	exit 1
-    fi
-
-    docker build --target intermediate --network=host --rm  -t ${tag}-intermediate -f "${dockerfile}" \
-        ${build_args} "${BASE_DIR}"
-fi
+build_args="--build-arg IMAGE_NAME=${base_image}"
 
 docker build --target base --network=host --rm  -t ${tag}-base -f "${dockerfile}" \
     ${build_args} "${BASE_DIR}"

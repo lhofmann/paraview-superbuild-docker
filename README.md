@@ -80,7 +80,7 @@ git clone https://github.com/lhofmann/paraview-superbuild-docker.git
 ./paraview-superbuild-docker/build.sh [osmesa|egl]
 ```
 
-The script will create docker images with tag `$USER/paraview-superbuild:5.78.0` for the `default` stage and `$USER/paraview-superbuild:5.8.0-base`, `$USER/paraview-superbuild:5.8.0-builder`, `$USER/paraview-superbuild:5.8.0-package` for the other stages.
+The script will create docker images with tag `$USER/paraview-superbuild:5.8.0` for the `default` stage and `$USER/paraview-superbuild:5.8.0-base`, `$USER/paraview-superbuild:5.8.0-builder`, `$USER/paraview-superbuild:5.8.0-package` for the other stages.
 
 
 ## Changelog
@@ -88,9 +88,8 @@ The script will create docker images with tag `$USER/paraview-superbuild:5.78.0`
 ### 5.8.0
 
 * switched to `devtoolset-8` (gcc 8)
-* Qt now requires a qt.io account for downloading binaries
-    * building paraview using Qt requires the account set as environment variables `QT_LOGIN` and `QT_PASSWORD`
-    * some care is taken, that the login is not leaked into the final docker image, by using another intermediate stage (tagged -intermediate)
+* Qt 5.10.1 is now built using https://gitlab.kitware.com/paraview/paraview-plugin-builder/-/blob/master/docker/install_qt.sh
+  * fixes incompatibility of plugins that rely on Qt libraries
 * cleaned up CMake configuration according to https://gitlab.kitware.com/paraview/paraview-plugin-builder
 * `build.sh` also creates a binary .tar.gz package
 
