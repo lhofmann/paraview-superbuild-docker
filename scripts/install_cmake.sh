@@ -2,8 +2,8 @@
 
 set -e
 
-readonly cmake_version="3.14"
-readonly cmake_version_patch="3"
+readonly cmake_version="3.18"
+readonly cmake_version_patch="6"
 readonly cmake_version_full="${cmake_version}.${cmake_version_patch}"
 
 readonly url="https://cmake.org/files/v${cmake_version}/cmake-${cmake_version_full}.tar.gz"

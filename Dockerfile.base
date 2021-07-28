@@ -6,7 +6,8 @@ RUN yum install -y \
     libX11-devel libXdamage-devel libXext-devel libXt-devel libXi-devel \
     libxcb-devel xorg-x11-xtrans-devel libXcursor-devel libXft-devel \
     libXinerama-devel libXrandr-devel libXrender-devel libxkbcommon-x11 \
-    mesa-libGL-devel mesa-libGLU-devel mesa-dri-drivers
+    mesa-libGL-devel mesa-libGLU-devel mesa-dri-drivers \
+    libxcb xcb-util xcb-util-devel libxkbcommon-devel
 
 ENV DEVTOOLSET_VERSION=8
 

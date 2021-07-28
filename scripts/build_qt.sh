@@ -19,7 +19,7 @@ cmake \
   -DSUPERBUILD_PROJECT_PARALLELISM=8 \
   -DENABLE_qt5:BOOL=ON \
   "-Dqt_install_location:PATH=/home/paraview/qt" \
-  "-Dqt5_SOURCE_SELECTION:STRING=5.10" \
+  "-Dqt5_SOURCE_SELECTION:STRING=5.12" \
   "-Dqt5_ENABLE_SVG:BOOL=ON" \
   "$srcdir/standalone-qt"
 make -j1

@@ -5,7 +5,7 @@
 
 set -e
 
-readonly paraview_version="5.8.0"
+readonly paraview_version="5.9.1"
 
 BASE_DIR=$(dirname $(readlink -f ${BASH_SOURCE}))
 
@@ -47,9 +47,9 @@ docker build --network=host --rm -t ${tag} -f "${dockerfile}"  \
 
 # create package
 docker run -itd --name paraview-package ${tag}-package
-docker exec paraview-package bash -c "mv /home/paraview/package /home/paraview/ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.7-64bit"
-docker exec paraview-package bash -c  "cd /home/paraview && tar czf ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.7-64bit.tar.gz ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.7-64bit/"
-docker cp paraview-package:/home/paraview/ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.7-64bit.tar.gz .
+docker exec paraview-package bash -c "mv /home/paraview/package /home/paraview/ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.8-64bit"
+docker exec paraview-package bash -c  "cd /home/paraview && tar czf ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.8-64bit.tar.gz ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.8-64bit/"
+docker cp paraview-package:/home/paraview/ParaView-${paraview_version}${tag_suffix}-MPI-Linux-Python3.8-64bit.tar.gz .
 docker stop paraview-package
 docker rm paraview-package
 

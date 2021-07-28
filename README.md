@@ -6,10 +6,15 @@
 Building [ParaView](https://www.paraview.org/) plugins, that are compatible with the ParaView binary distribution, currently requires to reproduce the [ParaView superbuild](https://gitlab.kitware.com/paraview/paraview-superbuild). 
 This docker image contains ParaView superbuild binaries as well as their development headers, which allows external plugins to be built. Any plugin built in this environment can be distributed and used within the ParaView binary distribution.
 
+[Please note, that there is a similar tool, developed by Kitware SAS, available here.](https://gitlab.kitware.com/paraview/paraview-plugin-builder)  
+
 Three variants for each version are provided: Qt5 GUI (no suffix), off-screen software rendering (OSMesa, suffix *-osmesa*) and hardware off-screen rendering (EGL, suffix *-egl*). The EGL variant requires libglvnd.
 
 | ParaView Release | Docker Image |
 |--|--|
+| [ParaView-5.9.1-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.8/ParaView-5.9.1-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1 |
+| [ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.8/ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-osmesa |
+| [ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.8/ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-egl |
 | [ParaView-5.8.0-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.8/ParaView-5.8.0-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0 |
 | [ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.8/ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0-osmesa |
 | [ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.8.0/ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0-egl |
@@ -27,6 +32,8 @@ This docker images are partially based on the Dockerfiles found on the [ParaView
 [docker](https://www.docker.com/) running in a Linux (or compatible) environment is required. All instructions assume, that your user is a member of the `docker` group.
 
 Prebuilt docker images can be found on [Docker Hub](https://hub.docker.com/r/lhofmann/paraview-superbuild). If you want to build your own docker images, see the instructions below (building takes about three hours on a desktop machine).
+
+Full working examples can be found in [examples/](examples), which are run by [Github Actions](.github/workflows/main.yml).
 
 The images have preset `PATH`, `Qt5_DIR` and `CMAKE_PREFIX_PATH` environment variables. In order to select gcc from the SCL, commands that run CMake need to be executed using `scl enable devtoolset-8` (version 5.7.0 uses `devltoolset-6` and version 5.6.0 uses `devtoolset-4`; you may also install your own toolset, see below).
 
@@ -48,9 +55,6 @@ The build artifacts are now in `/tmp/build` within the docker container. You may
 docker cp build:/tmp/build/libExamplePlugin.so .
 ```
 
-This is also demonstrated in the [Travis build](https://travis-ci.org/lhofmann/paraview-superbuild-docker), which builds a plugin using the docker image and executes it using the ParaView binary distribution. See also [.travis.yml](.travis.yml).
-
-Full working examples can be found in [examples/](examples).
 
 ## Extending the docker images
 
@@ -87,6 +91,11 @@ The script will create docker images with tag `$USER/paraview-superbuild:5.8.0` 
 
 
 ## Changelog
+
+### 5.9.1
+
+* updated to Qt 5.12.9, CMake 3.18.6
+* ParaView EGL binaries now available from Kitware
 
 ### 5.8.0
 
