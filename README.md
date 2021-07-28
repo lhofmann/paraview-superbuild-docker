@@ -12,9 +12,9 @@ Three variants for each version are provided: Qt5 GUI (no suffix), off-screen so
 
 | ParaView Release | Docker Image |
 |--|--|
-| [ParaView-5.9.1-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.8/ParaView-5.9.1-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1 |
-| [ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.8/ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-osmesa |
-| [ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.8/ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-egl |
+| [ParaView-5.9.1-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.9/ParaView-5.9.1-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1 |
+| [ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.9/ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-osmesa |
+| [ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.9/ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-egl |
 | [ParaView-5.8.0-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.8/ParaView-5.8.0-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0 |
 | [ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit](https://www.paraview.org/files/v5.8/ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0-osmesa |
 | [ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.8.0/ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit.tar.gz) | lhofmann/paraview-superbuild:5.8.0-egl |
