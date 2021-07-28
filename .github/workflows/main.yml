@@ -42,6 +42,18 @@ jobs:
            release_name: "ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit"
            variant: "-egl"
            paraview_version: "5.8"
+         - download_url: "https://www.paraview.org/files/v5.9/ParaView-5.9.1-MPI-Linux-Python3.8-64bit.tar.gz"
+           release_name: "ParaView-5.9.1-MPI-Linux-Python3.8-64bit"
+           variant: ""
+           paraview_version: "5.9"
+         - download_url: "https://www.paraview.org/files/v5.9/ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit.tar.gz"
+           release_name: "ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit"
+           variant: "-osmesa"
+           paraview_version: "5.9"
+         - download_url: "https://www.paraview.org/files/v5.9/ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit.tar.gz"
+           release_name: "ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit"
+           variant: "-egl"
+           paraview_version: "5.9"
     steps:
       - name: Echo environment
         env:
