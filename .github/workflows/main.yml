@@ -1,0 +1,88 @@
+name: CI
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+       include:
+         - download_url: "https://www.paraview.org/files/v5.6/ParaView-5.6.2-MPI-Linux-64bit.tar.gz"
+           release_name: "ParaView-5.6.2-MPI-Linux-64bit"
+           variant: ""
+           paraview_version: "5.6"
+         - download_url: "https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz"
+           release_name: "ParaView-5.6.2-osmesa-MPI-Linux-64bit"
+           variant: "-osmesa"
+           paraview_version: "5.6"
+         - download_url: "https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-egl-MPI-Linux-64bit.tar.gz"
+           release_name: "ParaView-5.6.2-egl-MPI-Linux-64bit"
+           variant: "-egl"
+           paraview_version: "5.6"
+         - download_url: "https://www.paraview.org/files/v5.7/ParaView-5.7.0-MPI-Linux-Python3.7-64bit.tar.gz"
+           release_name: "ParaView-5.7.0-MPI-Linux-Python3.7-64bit"
+           variant: ""
+           paraview_version: "5.7"
+         - download_url: "https://www.paraview.org/files/v5.7/ParaView-5.7.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz"
+           release_name: "ParaView-5.7.0-osmesa-MPI-Linux-Python3.7-64bit"
+           variant: "-osmesa"
+           paraview_version: "5.7"
+         - download_url: "https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.7.0/ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit.tar.gz"
+           release_name: "ParaView-5.7.0-egl-MPI-Linux-Python3.7-64bit"
+           variant: "-egl"
+           paraview_version: "5.7"
+         - download_url: "https://www.paraview.org/files/v5.8/ParaView-5.8.0-MPI-Linux-Python3.7-64bit.tar.gz"
+           release_name: "ParaView-5.8.0-MPI-Linux-Python3.7-64bit"
+           variant: ""
+           paraview_version: "5.8"
+         - download_url: "https://www.paraview.org/files/v5.8/ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit.tar.gz"
+           release_name: "ParaView-5.8.0-osmesa-MPI-Linux-Python3.7-64bit"
+           variant: "-osmesa"
+           paraview_version: "5.8"
+         - download_url: "https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.8.0/ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit.tar.gz"
+           release_name: "ParaView-5.8.0-egl-MPI-Linux-Python3.7-64bit"
+           variant: "-egl"
+           paraview_version: "5.8"
+    steps:
+      - name: Echo environment
+        env:
+          paraview_version: ${{ matrix.paraview_version }}
+          variant: ${{ matrix.variant }}
+          release_name: ${{ matrix.release_name }}
+          download_url: ${{ matrix.download_url }}
+        run: echo $paraview_version $variant $release_name $download_url
+      - uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: |
+          sed -ie 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+          git submodule update --init --recursive
+      - name: Install dependencies
+        shell: bash
+        env:
+          variant: ${{ matrix.variant }}        
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libglu1-mesa libsm6 libxt6 libopengl0
+          if [ $variant == "-egl" ]; then
+            sudo apt-get install -y libegl1;
+          fi
+      - name: Build
+        working-directory: ./examples
+        env:
+          paraview_version: ${{ matrix.paraview_version }}
+          variant: ${{ matrix.variant }}        
+        run:  ./build_paraview-vtk-template_ParaView${paraview_version}.sh ${variant}
+      - name: Download ParaView binaries
+        working-directory: ./examples
+        env:
+          release_name: ${{ matrix.release_name }}
+          download_url: ${{ matrix.download_url }}
+        run: |
+          wget "${download_url}" -O ${release_name}.tar.gz
+          tar xzf ${release_name}.tar.gz
+      - name: Test
+        working-directory: ./examples
+        env:
+          release_name: ${{ matrix.release_name }}
+        run: |
+          ./${release_name}/bin/pvpython paraview-vtk-template/tests/test_paraview.py
+          ./${release_name}/bin/pvpython paraview-vtk-template/tests/test_vtk.py
