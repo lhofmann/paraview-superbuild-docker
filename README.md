@@ -12,6 +12,9 @@ Three variants for each version are provided: Qt5 GUI (no suffix), off-screen so
 
 | ParaView Release | Docker Image |
 |--|--|
+| [ParaView-5.10.0-MPI-Linux-Python3.9-x86_64](https://www.paraview.org/files/v5.10/ParaView-5.10.0-MPI-Linux-Python3.9-x86_64.tar.gz) | lhofmann/paraview-superbuild:5.10.0 |
+| [ParaView-5.10.0-osmesa-MPI-Linux-Python3.9-x86_64](https://www.paraview.org/files/v5.10/ParaView-5.10.0-osmesa-MPI-Linux-Python3.9-x86_64.tar.gz) | lhofmann/paraview-superbuild:5.10.0-osmesa |
+| [ParaView-5.10.0-egl-MPI-Linux-Python3.9-x86_64](https://www.paraview.org/files/v5.10/ParaView-5.10.0-egl-MPI-Linux-Python3.9-x86_64.tar.gz) | lhofmann/paraview-superbuild:5.10.0-egl |
 | [ParaView-5.9.1-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.9/ParaView-5.9.1-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1 |
 | [ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.9/ParaView-5.9.1-osmesa-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-osmesa |
 | [ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit](https://www.paraview.org/files/v5.9/ParaView-5.9.1-egl-MPI-Linux-Python3.8-64bit.tar.gz) | lhofmann/paraview-superbuild:5.9.1-egl |
@@ -25,7 +28,7 @@ Three variants for each version are provided: Qt5 GUI (no suffix), off-screen so
 | [ParaView-5.6.2-osmesa-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-osmesa-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-osmesa |
 | [ParaView-5.6.2-egl-MPI-Linux-64bit](https://github.com/lhofmann/paraview-superbuild-docker/releases/download/5.6.2/ParaView-5.6.2-egl-MPI-Linux-64bit.tar.gz) | lhofmann/paraview-superbuild:5.6.2-egl |
 
-This docker images are partially based on the Dockerfiles found on the [ParaView mailing list](https://public.kitware.com/pipermail/paraview/2017-April/039841.html) and in the [ParaView superbuild repository](https://gitlab.kitware.com/paraview/paraview-superbuild/tree/master/Scripts/docker/el6). The CMake configuration is taken from the [ParaView CDash](https://open.cdash.org/index.php?project=ParaView).
+This docker images are partially based on the Dockerfiles found on the [ParaView mailing list](https://public.kitware.com/pipermail/paraview/2017-April/039841.html) and in the [ParaView superbuild repository](https://gitlab.kitware.com/paraview/paraview-superbuild/tree/master/Scripts/docker/el6). The CMake configuration is taken from the [ParaView CDash](https://open.cdash.org/index.php?project=ParaView), and [ParaView superbuild Gitlab CI](https://gitlab.kitware.com/paraview/paraview-superbuild/-/tree/master/.gitlab/ci).
 
 ## Usage
 
@@ -43,7 +46,7 @@ docker run -itd                              \
   --name build                               \
   --user "$(id -u ${USER}):$(id -g ${USER})" \
   --volume="$(pwd)/shared:/mnt/shared:ro"    \
-  lhofmann/paraview-superbuild:5.8.0
+  lhofmann/paraview-superbuild:5.10.0
 ```
 Run CMake and build in `/tmp/build`:
 ```bash
@@ -60,7 +63,7 @@ docker cp build:/tmp/build/libExamplePlugin.so .
 
 The docker images run as non-root user `paraview`. If you need additional dependencies for your builds, create a derived docker image:
 ```dockerfile
-ARG paraview_version="5.8.0"
+ARG paraview_version="5.10.0"
 FROM lhofmann/paraview-superbuild:${paraview_version}
 USER root
 
@@ -87,10 +90,15 @@ git clone https://github.com/lhofmann/paraview-superbuild-docker.git
 ./paraview-superbuild-docker/build.sh [osmesa|egl]
 ```
 
-The script will create docker images with tag `$USER/paraview-superbuild:5.8.0` for the `default` stage and `$USER/paraview-superbuild:5.8.0-base`, `$USER/paraview-superbuild:5.8.0-builder`, `$USER/paraview-superbuild:5.8.0-package` for the other stages.
+The script will create docker images with tag `$USER/paraview-superbuild:5.10.0` for the `default` stage and `$USER/paraview-superbuild:5.10.0-base`, `$USER/paraview-superbuild:5.10.0-builder`, `$USER/paraview-superbuild:5.10.0-package` for the other stages.
 
 
 ## Changelog
+
+### 5.10.0
+
+* updated to CMake 3.21.2
+* CMake parameters are now based on Kitware's Gitlab CI config: [configure_common.cmake](https://gitlab.kitware.com/paraview/paraview-superbuild/-/blob/v5.10.0/.gitlab/ci/configure_common.cmake), [configure_linux_osmesa_shared.cmake](https://gitlab.kitware.com/paraview/paraview-superbuild/-/blob/v5.10.0/.gitlab/ci/configure_linux_osmesa_shared.cmake), [configure_linux_egl.cmake](https://gitlab.kitware.com/paraview/paraview-superbuild/-/blob/v5.10.0/.gitlab/ci/configure_linux_egl.cmake)
 
 ### 5.9.1
 
