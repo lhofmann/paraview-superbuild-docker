@@ -2,12 +2,14 @@ FROM centos:7
 
 RUN yum install -y \
     curl-devel epel-release \
-    git-core chrpath libtool make which \
-    libX11-devel libXdamage-devel libXext-devel libXt-devel libXi-devel \
-    libxcb-devel xorg-x11-xtrans-devel libXcursor-devel libXft-devel \
-    libXinerama-devel libXrandr-devel libXrender-devel libxkbcommon-x11 \
-    mesa-libGL-devel mesa-libGLU-devel mesa-dri-drivers \
-    libxcb xcb-util xcb-util-devel libxkbcommon-devel
+    git-core git-lfs make which \
+    zlib-devel libcurl-devel python-devel \
+    freeglut-devel glew-devel graphviz-devel libpng-devel \
+    libxcb libxcb-devel libXt-devel xcb-util xcb-util-devel \
+    libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
+    libxkbcommon-devel libxkbcommon-x11-devel file mesa-dri-drivers autoconf \
+    automake libtool chrpath bison flex libXrandr-devel
+
 
 ENV DEVTOOLSET_VERSION=8
 
