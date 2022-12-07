@@ -1,3 +1,7 @@
+# ⛔️ Deprecated
+
+As of ParaView v5.10.0, this project is deprecated in favor of the Kitware-supported docker images [kitware/paraview_org-plugin-devel](https://hub.docker.com/r/kitware/paraview_org-plugin-devel).
+
 # ParaView Superbuild Docker Image
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -5,8 +9,6 @@
 
 Building [ParaView](https://www.paraview.org/) plugins, that are compatible with the ParaView binary distribution, currently requires to reproduce the [ParaView superbuild](https://gitlab.kitware.com/paraview/paraview-superbuild). 
 This docker image contains ParaView superbuild binaries as well as their development headers, which allows external plugins to be built. Any plugin built in this environment can be distributed and used within the ParaView binary distribution.
-
-[Please note, that there is a similar tool, developed by Kitware SAS, available here.](https://gitlab.kitware.com/paraview/paraview-plugin-builder)  
 
 Three variants for each version are provided: Qt5 GUI (no suffix), off-screen software rendering (OSMesa, suffix *-osmesa*) and hardware off-screen rendering (EGL, suffix *-egl*). The EGL variant requires libglvnd.
 
